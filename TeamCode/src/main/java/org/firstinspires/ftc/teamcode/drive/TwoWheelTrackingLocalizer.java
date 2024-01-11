@@ -37,14 +37,14 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double WHEEL_RADIUS = 0.75; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double PARALLEL_X = 0; // X is the up and down direction
-    public static double PARALLEL_Y =0.3543307087;// 0.590551181103; // Y is the strafe direction //1.5cm // 0.9cm
+    public static double PARALLEL_X =-3.937; // X is the up and down direction
+    public static double PARALLEL_Y =-0.787; // Y is the strafe direction //1.5cm // 0.9cm
 
-    public static double PERPENDICULAR_X = -4.842519685;//-5.70866141733; // 14.5cm // 12.3
-    public static double PERPENDICULAR_Y = 1.3385826772;//2.28346456693; //5.8cm // 3.4
+    public static double PERPENDICULAR_X =4.330; // 14.5cm // 12.3
+    public static double PERPENDICULAR_Y = -2.36224;//2.28346456693; //5.8cm // 3.4
 
-    public static double X_MULTIPLIER = 0.991911619116407;// 0.9764580375; // Multiplier in the X direction //I took the average //test1 0.959700805614627 //test2 0.954894602610225 //test3 0.9646283852552047
-    public static double Y_MULTIPLIER =  0.970219072071739; // 0.9679219072071739 // Multiplier in the Y direction //test1 0.9704601577543883 //test2 0.9707458705297466 //test3 0.9696659923184164
+    public static double X_MULTIPLIER = 1.004281126172222222222;// 0.9764580375; // Multiplier in the X direction //I took the average //test1 0.959700805614627 //test2 0.954894602610225 //test3 0.9646283852552047
+    public static double Y_MULTIPLIER =  0.98855579924560944444; // 0.9679219072071739 // Multiplier in the Y direction //test1 0.9704601577543883 //test2 0.9707458705297466 //test3 0.9696659923184164
     // Parallel/Perpendicular to the forward axis
     // Parallel wheel is parallel to the forward axis
     // Perpendicular is perpendicular to the forward axis
@@ -60,12 +60,12 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
         this.drive = drive;
 
-        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "parallelEncoder"));
-        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "perpendicularEncoder"));
+        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftFront"));
+        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightFront"));
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
         parallelEncoder.setDirection(Encoder.Direction.FORWARD);  // aici s -ar putea
-        perpendicularEncoder.setDirection(Encoder.Direction.FORWARD); // FORWARD
+        perpendicularEncoder.setDirection(Encoder.Direction.REVERSE); // FORWARD
 
     }
 

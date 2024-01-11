@@ -22,8 +22,8 @@ public class DriveConstants {
     /*
      * These are motor constants that should be listed online for your motors.
      */
-    public static final double TICKS_PER_REV = 103.6;
-    public static final double MAX_RPM = 1620;
+    public static final double TICKS_PER_REV = 537.6;
+    public static final double MAX_RPM = 312;
 
     /*
      * Set RUN_USING_ENCODER to true to enable built-in hub velocity control using drive encoders.
@@ -33,23 +33,21 @@ public class DriveConstants {
      * If using the built-in motor velocity PID, update MOTOR_VELO_PID with the tuned coefficients
      * from DriveVelocityPIDTuner.
      */
-
-
     public static final boolean RUN_USING_ENCODER = false;
     public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0,
-      getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
+            getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
 
     /*
      * These are physical constants that can be determined from your robot (including the track
-     * width; it will be tune empirically later alt000000000000000000000000000000000hough a rough estimate is important). Users are
+     * width; it will be tune empirically later although a rough estimate is important). Users are
      * free to chose whichever linear distance unit they would like so long as it is consistently
      * used. The default values were selected with inches in mind. Road runner uses radians for
      * angular distances although most angular parameters are wrapped in Math.toRadians() for
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
     public static double WHEEL_RADIUS = 1.8898; // in
-    public static double GEAR_RATIO = 0.5; // output (wheel) speed / input (motor) speed-- 0.5
-    public static double TRACK_WIDTH = 17; // in - 10.27 // 12
+    public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
+    public static double TRACK_WIDTH = 15.2; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -57,10 +55,9 @@ public class DriveConstants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-
-    public static double kV = 0.0035; // 0.016
-    public static double kA = 0.001; // 0.003
-    public static double kStatic = 0.16138; //0.011
+    public static double kV =0.01725745489133503;
+    public static double kA = 0.00366;
+    public static double kStatic = 0.01;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -73,39 +70,27 @@ public class DriveConstants {
      * Note from LearnRoadRunner.com:
      * The velocity and acceleration constraints were calculated based on the following equation:
      * ((MAX_RPM / 60) * GEAR_RATIO * WHEEL_RADIUS * 2 * Math.PI) * 0.85
-     * Resulting in 136.2537322355041 in/s.
+     * Resulting in 52.48291908330528 in/s.
      * This is only 85% of the theoretical maximum velocity of the bot, following the recommendation above.
      * This is capped at 85% because there are a number of variables that will prevent your bot from actually
      * reaching this maximum velocity: voltage dropping over the game, bot weight, general mechanical inefficiencies, etc.
-     * However, you can push this higher yourself if you'd like. Perhaps raise it to 90-95% of the theoretically 
-     * max velocity. The theoretically maximum velocity is 160.29850851235776 in/s.
+     * However, you can push this higher yourself if you'd like. Perhaps raise it to 90-95% of the theoretically
+     * max velocity. The theoretically maximum velocity is 61.74461068624151 in/s.
      * Just make sure that your bot can actually reach this maximum velocity. Path following will be detrimentally
      * affected if it is aiming for a velocity not actually possible.
-     * 
+     *
      * The maximum acceleration is somewhat arbitrary and it is recommended that you tweak this yourself based on
      * actual testing. Just set it at a reasonable value and keep increasing until your path following starts
-     * to degrade. As of now, it simply mirrors the velocity, resulting in 136.2537322355041 in/s/s
+     * to degrade. As of now, it simply mirrors the velocity, resulting in 52.48291908330528 in/s/s
      *
      * Maximum Angular Velocity is calculated as: maximum velocity / trackWidth * (180 / Math.PI) but capped at 360°/s.
      * You are free to raise this on your own if you would like. It is best determined through experimentation.
-     *
-     * WARNING: LearnRoadRunner.com's constant generator has capped the calculated recommended velocity at 90in/s.
-     * This message is showing because your gear ratio/motor RPM/etc. configuration, results in a recommended
-     * velocity (85% of max velocity) exceeding 90in/s.
-     * (Your recommended velocity was 136.2537322355041in/s)
-     * This is simply insanely fast for an FTC bot and chances are your bot cannot properly reach these speeds.
-     * 
-     * Just to be safe, LearnRoadRunner.com has arbitrarily limited your velocity to 90in/s.
-     * You are free to increase it yourself. If you do run into issues, please lower the maximum velocity.
-     * 
-     * A documented case of a similar error which served as an impetus for this reasoning can be found here:
-     * https://github.com/acmerobotics/road-runner-quickstart/issues/91
-     
+
      */
-    public static double MAX_VEL = 35;
-    public static double MAX_ACCEL = 35;
-    public static double MAX_ANG_VEL = Math.toRadians(433.20701026671185);//(433.20701026671185);
-    public static double MAX_ANG_ACCEL = Math.toRadians(353.9203950705154);//(353.9203950705154);
+    public static double MAX_VEL = 42;
+    public static double MAX_ACCEL = 42;
+    public static double MAX_ANG_VEL = Math.toRadians(140.968691200);
+    public static double MAX_ANG_ACCEL = Math.toRadians(140.9686912002);
 
 
     public static double encoderTicksToInches(double ticks) {
@@ -117,7 +102,7 @@ public class DriveConstants {
     }
 
     public static double getMotorVelocityF(double ticksPerSecond) {
-      // see https://docs.google.com/document/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/edit#heading=h.61g9ixenznbx
-      return 32767 / ticksPerSecond;
+        // see https://docs.google.com/document/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/edit#heading=h.61g9ixenznbx
+        return 32767 / ticksPerSecond;
     }
 }

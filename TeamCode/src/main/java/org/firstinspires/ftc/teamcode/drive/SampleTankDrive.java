@@ -124,7 +124,7 @@ public class SampleTankDrive extends TankDrive {
         float xRotationRate = myRobotAngularVelocity.xRotationRate;
         float yRotationRate = myRobotAngularVelocity.yRotationRate;
 
-       // imu.resetYaw();
+        // imu.resetYaw();
 
         // TODO: If the hub containing the IMU you are using is mounted so that the "REV" logo does
         // not face up, remap the IMU axes so that the z-axis points upward (normal to the floor.)
@@ -177,7 +177,7 @@ public class SampleTankDrive extends TankDrive {
         // TODO: reverse any motors using DcMotor.setDirection()
 
         // TODO: if desired, use setLocalizer() to change the localization method
-       //   setLocalizer(new TwoWheelTrackingLocalizer(hardwareMap,this));
+        //   setLocalizer(new TwoWheelTrackingLocalizer(hardwareMap,this));
 
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(follower, HEADING_PID);

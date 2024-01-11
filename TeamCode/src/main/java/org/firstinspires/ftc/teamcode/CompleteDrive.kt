@@ -46,7 +46,7 @@ class CompleteDrive: OpMode() {
         var rightTriggerIsPressed = false
         var scale= 0.3 // 0.6
 
-        var liftState = LiftState.LIFT_START
+        var liftState = LiftState.LIFT_LOW
 
         var liftTimer = ElapsedTime()
         liftTimer.reset()
@@ -67,25 +67,120 @@ class CompleteDrive: OpMode() {
             val power = speed
             val rotPower = rotation
             hw.motors.move(direction, power*0.9, rotPower*0.9)
-            if(gp1.checkToggle(Gamepad.Button.RIGHT_BUMPER)){
-                outtake.openSlider()
-            }
-            if(gp1.checkToggle(Gamepad.Button.LEFT_BUMPER)){
-                outtake.closeSlider()
-            }
-            if(gp1.checkToggle(Gamepad.Button.Y)){
+
+            if(gp1.checkToggle(Gamepad.Button.B))
+                outtake.resetEncoders()
+
+            if(gp2.checkToggle(Gamepad.Button.Y)){
+                outtake.normalIntake()
                 outtake.openSlider(1.0)
                 outtake.openSlider1(1.0)
-
-            }
-            if(gp1.checkToggle(Gamepad.Button.A)){
-                outtake.closeSlider(0.5)
-                outtake.closeSlider1(1.0)
             }
 
-            if(gp1.checkToggle(Gamepad.Button.DPAD_UP))
+            if(gp2.checkToggle(Gamepad.Button.X)){
+                outtake.reverseIntake()
+                outtake.openSlider(1.0)
+                outtake.openSlider1(1.0)
+            }
+
+            if(gp2.checkToggle(Gamepad.Button.A)){
+                outtake.closeSlider(0.0)
+                outtake.closeSlider1(0.0)
+            }
+            if (gp2.checkToggle(Gamepad.Button.DPAD_UP))
                 outtake.togglePixel()
 
+            when(liftState) {
+                LiftState.LIFT_START -> {
+
+                    if (gp2.checkToggle(Gamepad.Button.RIGHT_BUMPER)) {
+                        outtake.openLowSlider()
+                        liftState = LiftState.LIFT_LOW
+                    }
+
+
+
+                }
+
+                LiftState.LIFT_LOW -> {
+
+                    if (gp2.checkToggle(Gamepad.Button.RIGHT_BUMPER)) {
+                        outtake.openMidSlider()
+                        liftState = LiftState.LIFT_MEDIUM
+
+                    }
+                    if (gp2.checkToggle(Gamepad.Button.LEFT_BUMPER)) {
+                        outtake.closeSlider()
+                        outtake.dropPixel()
+                        liftState = LiftState.LIFT_START
+
+                    }
+                    if(gp2.checkToggle(Gamepad.Button.DPAD_DOWN)) {
+                        outtake.closeSlider()
+                        liftState = LiftState.LIFT_START
+
+
+                    }
+                    if (gp1.checkToggle(Gamepad.Button.LEFT_BUMPER)) {
+                        outtake.closeSlider()
+                        liftState = LiftState.LIFT_START
+
+                    }
+                    if(gp2.checkToggle(Gamepad.Button.B))
+                        outtake.openUp()
+                }
+
+                LiftState.LIFT_MEDIUM-> {
+                    if (gp2.checkToggle(Gamepad.Button.RIGHT_BUMPER)) {
+                        outtake.openSlider()
+                        liftState = LiftState.LIFT_UP
+
+                    }
+                    if (gp2.checkToggle(Gamepad.Button.LEFT_BUMPER)) {
+                        outtake.openLowSlider()
+                        liftState = LiftState.LIFT_LOW
+
+                    }
+
+                    if(gp2.checkToggle(Gamepad.Button.DPAD_DOWN)) {
+                        outtake.closeSlider()
+                        liftState = LiftState.LIFT_START
+
+                    }
+                    if (gp1.checkToggle(Gamepad.Button.LEFT_BUMPER)) {
+                        outtake.openLowSlider()
+                        liftState = LiftState.LIFT_LOW
+                    }
+                    if(gp2.checkToggle(Gamepad.Button.B))
+                        outtake.openUp()
+                }
+                LiftState.LIFT_UP->{
+                    if (gp2.checkToggle(Gamepad.Button.LEFT_BUMPER)) {
+                        outtake.openMidSlider()
+                        liftState = LiftState.LIFT_MEDIUM
+
+                    }
+                    if(gp2.checkToggle(Gamepad.Button.DPAD_DOWN)) {
+                        outtake.closeSlider()
+                        liftState = LiftState.LIFT_START
+
+
+                    }
+                    if (gp1.checkToggle(Gamepad.Button.LEFT_BUMPER)) {
+                        outtake.openMidSlider()
+                        liftState = LiftState.LIFT_MEDIUM
+                    }
+                    if(gp2.checkToggle(Gamepad.Button.B))
+                        outtake.openUp()
+                }
+
+
+
+            }
+
+            
+
+         outtake.printPosition(telemetry)
         }
     }
 

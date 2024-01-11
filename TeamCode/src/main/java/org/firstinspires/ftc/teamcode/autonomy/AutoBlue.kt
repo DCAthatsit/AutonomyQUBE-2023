@@ -11,34 +11,34 @@ import org.firstinspires.ftc.teamcode.waitMillis
 
 @Autonomous
 @Config
-class AutoOK: AutoBase() {
+class AutoBlue: AutoBase() {
     // asta e dreapta jos si stanga sus terenul nostru dinspre masa cu unelte inspre chestia cu awards
     private val n : Int = 5
     private val startPose = Pose2d(0.0, 0.0, Math.toRadians(0.0))
 
     /*** Primul Pixel ***/
-    private val startDreapta = Vector2d(16.7,-12.7)
-    private val startCentru = Vector2d(26.3,-0.2)
+    private val startDreapta = Vector2d(16.7,12.7)
+    private val startCentru = Vector2d(26.3,0.2)
     private val startStanga = Vector2d(29.0,0.0)
 
     /***Parcare***/
 
-    private val parcareStanga = Pose2d(0.6,-44.0,Math.toRadians(85.0))
-    private val parcareDreapta = Vector2d(0.6,-44.0,)
+    private val parcareDreapta = Pose2d(0.6,44.0,Math.toRadians(-85.0))
+    private val parcareStanga = Vector2d(0.6,44.0,)
 
     /***Primul Pixel Departe  ***/
-    private val startStangaDeparte = Vector2d(14.2,10.8)
+    private val startDreaptaDeparte = Vector2d(17.2,-10.8)
 
     /*** Parcare departe ***/
 
-    private val parcarCentru = Vector2d(6.4,-88.2)
+    private val parcarCentru = Vector2d(6.4,88.2)
 
 
 
 
 
     var ok  = 0
-    var ok1 =1
+    var ok1 =3
     val i = 1
     override fun preInit()  {
         super.preInit()
@@ -50,20 +50,20 @@ class AutoOK: AutoBase() {
     override fun Hardware.run() {
         outtake.reverseIntake()
         outtake.openGateAuto()
-        if(ok==3) {
+        if(ok==1) {
             drive.followTrajectory(
                     drive.trajectoryBuilder(drive.poseEstimate)
                             .lineToConstantHeading(startDreapta)
                             .build()
             )
-                outtake.openSlider(0.4)
+            outtake.openSlider(0.4)
             waitMillis(4000)
-                outtake.closeSlider(0.0)
+            outtake.closeSlider(0.0)
             waitMillis(200)
             drive.followTrajectory(
                     drive.trajectoryBuilder(drive.poseEstimate)
                             //.splineToConstantHeading(finalPose,Math.toRadians(0.0)) sau {
-                            .lineToConstantHeading(parcareDreapta)
+                            .lineToConstantHeading(parcareStanga)
                             //     si
                             //   }
 
@@ -93,7 +93,7 @@ class AutoOK: AutoBase() {
             drive.followTrajectory(
                     drive.trajectoryBuilder(drive.poseEstimate)
                             //.splineToConstantHeading(finalPose,Math.toRadians(0.0)) sau {
-                            .lineToConstantHeading(parcareDreapta)
+                            .lineToConstantHeading(parcareStanga)
                             //     si
                             //   }
 
@@ -103,7 +103,7 @@ class AutoOK: AutoBase() {
             )
 
 
-        }else if(ok==1) {
+        }else if(ok==3) {
             drive.followTrajectory(
                     drive.trajectoryBuilder(drive.poseEstimate)
                             .lineToConstantHeading(startStanga)
@@ -111,8 +111,8 @@ class AutoOK: AutoBase() {
             )
 
             drive.followTrajectorySequence(
-                            drive.trajectorySequenceBuilder(drive.poseEstimate)
-                        .turn(Math.toRadians(95.0))
+                    drive.trajectorySequenceBuilder(drive.poseEstimate)
+                            .turn(Math.toRadians(-95.0))
                             .build()
             )
             outtake.openSlider(0.3)
@@ -122,7 +122,7 @@ class AutoOK: AutoBase() {
 
             drive.followTrajectory(
                     drive.trajectoryBuilder(drive.poseEstimate)
-                            .lineToLinearHeading(parcareStanga)
+                            .lineToLinearHeading(parcareDreapta)
                             .build()
             )
 
@@ -141,11 +141,11 @@ class AutoOK: AutoBase() {
 
 
         /*** Auto Departe ***/
-        if(ok1==1)
+        if(ok1==3)
         {
             drive.followTrajectory(
                     drive.trajectoryBuilder(drive.poseEstimate)
-                            .lineToConstantHeading(startStangaDeparte)
+                            .lineToConstantHeading(startDreaptaDeparte)
                             .build()
             )
             outtake.openSlider(0.3)
@@ -160,7 +160,7 @@ class AutoOK: AutoBase() {
 
             drive.followTrajectorySequence(
                     drive.trajectorySequenceBuilder(drive.poseEstimate)
-                            .turn(Math.toRadians(95.0))
+                            .turn(Math.toRadians(-95.0))
                             .build()
             )
             drive.followTrajectory(
@@ -173,73 +173,71 @@ class AutoOK: AutoBase() {
 
         }
         else
-        if(ok1==2)
-        {
-            drive.followTrajectory(
-                    drive.trajectoryBuilder(drive.poseEstimate)
-                            .forward(26.3)
-                            .build()
-            )
-            outtake.openSlider(0.3)
-            waitMillis(3000)
-            outtake.closeSlider()
+            if(ok1==2)
+            {
+                drive.followTrajectory(
+                        drive.trajectoryBuilder(drive.poseEstimate)
+                                .forward(26.3)
+                                .build()
+                )
+                outtake.openSlider(0.3)
+                waitMillis(3000)
+                outtake.closeSlider()
 
-            drive.followTrajectory(
-                    drive.trajectoryBuilder(drive.poseEstimate)
-                            .back(26.3)
-                            .build()
-            )
-            drive.followTrajectorySequence(
-                    drive.trajectorySequenceBuilder(drive.poseEstimate)
-                            .turn(Math.toRadians(95.0))
-                            .build()
-            )
-            drive.followTrajectory(
-                    drive.trajectoryBuilder(drive.poseEstimate)
-                            .back(88.0)
-                            .build()
-            )
+                drive.followTrajectory(
+                        drive.trajectoryBuilder(drive.poseEstimate)
+                                .back(26.3)
+                                .build()
+                )
+                drive.followTrajectorySequence(
+                        drive.trajectorySequenceBuilder(drive.poseEstimate)
+                                .turn(Math.toRadians(-95.0))
+                                .build()
+                )
+                drive.followTrajectory(
+                        drive.trajectoryBuilder(drive.poseEstimate)
+                                .back(88.0)
+                                .build()
+                )
 
-        }
-        else if (ok1==3)
-        {
-            drive.followTrajectory(
-                    drive.trajectoryBuilder(drive.poseEstimate)
-                            .forward(29.0)
-                            .build()
-            )
-            drive.followTrajectorySequence(
-                    drive.trajectorySequenceBuilder(drive.poseEstimate)
-                            .turn(Math.toRadians(-95.0))
-                            .build()
-            )
-            outtake.openSlider(0.3)
-            waitMillis(3000)
-            outtake.closeSlider()
+            }
+            else if (ok1==1)
+            {
+                drive.followTrajectory(
+                        drive.trajectoryBuilder(drive.poseEstimate)
+                                .forward(29.0)
+                                .build()
+                )
+                drive.followTrajectorySequence(
+                        drive.trajectorySequenceBuilder(drive.poseEstimate)
+                                .turn(Math.toRadians(95.0))
+                                .build()
+                )
+                outtake.openSlider(0.3)
+                waitMillis(3000)
+                outtake.closeSlider()
 
-            drive.followTrajectorySequence(
-                    drive.trajectorySequenceBuilder(drive.poseEstimate)
-                            .turn(Math.toRadians(95.0))
-                            .build()
-            )
+                drive.followTrajectorySequence(
+                        drive.trajectorySequenceBuilder(drive.poseEstimate)
+                                .turn(Math.toRadians(-95.0))
+                                .build()
+                )
 
-            drive.followTrajectory(
-                    drive.trajectoryBuilder(drive.poseEstimate)
-                            .back(28.0)
-                            .build()
-            )
-            drive.followTrajectorySequence(
-                    drive.trajectorySequenceBuilder(drive.poseEstimate)
-                            .turn(Math.toRadians(95.0))
-                            .build()
-            )
-            drive.followTrajectory(
-                    drive.trajectoryBuilder(drive.poseEstimate)
-                            .back(88.0)
-                            .build()
-            )
-
-
+                drive.followTrajectory(
+                        drive.trajectoryBuilder(drive.poseEstimate)
+                                .back(28.0)
+                                .build()
+                )
+                drive.followTrajectorySequence(
+                        drive.trajectorySequenceBuilder(drive.poseEstimate)
+                                .turn(Math.toRadians(-95.0))
+                                .build()
+                )
+                drive.followTrajectory(
+                        drive.trajectoryBuilder(drive.poseEstimate)
+                                .back(88.0)
+                                .build()
+                )
 
 
 
@@ -247,7 +245,9 @@ class AutoOK: AutoBase() {
 
 
 
-        }
+
+
+            }
 
 
 
